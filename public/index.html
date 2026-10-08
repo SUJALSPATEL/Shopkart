@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ShopKart customer authentication">
+    <title>ShopKart | Customer Access</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main class="shell">
+        <section class="intro">
+            <div class="brand-mark">SK</div>
+            <p class="eyebrow">SHOPKART / CUSTOMER ACCESS</p>
+            <h1>Your essentials,<br><em>ready when you are.</em></h1>
+            <p class="intro-copy">Create your customer account, keep your details secure, and pick up where you left off.</p>
+            <div class="service-note"><span class="pulse"></span><span>Authentication service online</span></div>
+        </section>
+
+        <section class="auth-panel" aria-label="Customer authentication">
+            <div class="panel-topline">
+                <span id="panel-kicker">WELCOME BACK</span>
+                <span class="api-label">API / 5000</span>
+            </div>
+
+            <div class="tabs" role="tablist">
+                <button class="tab active" data-view="login" role="tab">Sign in</button>
+                <button class="tab" data-view="register" role="tab">Create account</button>
+            </div>
+
+            <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+            <form id="login-form" class="auth-form">
+                <h2>Good to see you.</h2>
+                <p class="form-hint">Sign in to view your ShopKart profile.</p>
+                <label>Email address<input name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+                <label>Password<input name="password" type="password" placeholder="Your password" autocomplete="current-password" required></label>
+                <button class="primary-button" type="submit">Sign in <span>-></span></button>
+            </form>
+
+            <form id="register-form" class="auth-form hidden">
+                <h2>Start shopping smarter.</h2>
+                <p class="form-hint">Your account takes less than a minute to set up.</p>
+                <label>Full name<input name="fullName" type="text" placeholder="John Doe" autocomplete="name" required></label>
+                <label>Email address<input name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+                <div class="field-row"><label>Password<input name="password" type="password" placeholder="6+ characters" minlength="6" autocomplete="new-password" required></label><label>Phone<input name="phone" type="tel" placeholder="9876543210" autocomplete="tel" required></label></div>
+                <button class="primary-button" type="submit">Create account <span>-></span></button>
+            </form>
+
+            <section id="profile-view" class="profile hidden">
+                <div class="profile-heading"><div class="avatar" id="avatar">SK</div><div><p class="eyebrow">SIGNED IN AS</p><h2 id="profile-name">Customer</h2></div></div>
+                <dl><div><dt>Email</dt><dd id="profile-email"></dd></div><div><dt>Phone</dt><dd id="profile-phone"></dd></div></dl>
+                <div class="profile-actions"><button id="logout-button" class="secondary-button" type="button">Sign out</button><button id="password-button" class="text-button" type="button">Change password</button></div>
+            </section>
+        </section>
+    </main>
+    <footer>SHOPKART AUTHENTICATION SERVICE <span>•</span> SECURE CUSTOMER ACCESS</footer>
+    <script src="/app.js"></script>
+</body>
+</html>

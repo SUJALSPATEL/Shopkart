@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-first tokens — these generate bg-paper, text-ink, etc. */
+@theme {
+    --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'DM Mono', ui-monospace, monospace;
+
+    --color-ink: #17211d;
+    --color-muted: #718078;
+    --color-paper: #f4f1e9;
+    --color-panel: #fffdf8;
+    --color-line: #dfe3d8;
+    --color-brand: #245b49;
+    --color-brand-dark: #173f32;
+    --color-lime: #c8ec68;
+    --color-accent: #e88754;
+    --color-hard: #d8ddcd;
+    --color-danger: #984c37;
+    --color-danger-bg: #fae7dd;
+    --color-ok-bg: #edf5d9;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Components layer so Tailwind utilities can still override these. */
+@layer components {
+    /* The dotted paper texture carried over from the original ShopKart design. */
+    .dotted {
+        background-image: radial-gradient(#b5bcae 0.7px, transparent 0.7px);
+        background-size: 18px 18px;
+    }
+
+    /* Shared field styling so every form input looks identical. */
+    .field {
+        display: block;
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 0.8rem 0;
+        border: 0;
+        border-bottom: 1px solid var(--color-line);
+        background: transparent;
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        outline: none;
+    }
+
+    .field:focus {
+        border-color: var(--color-brand);
+    }
+
+    .field::placeholder {
+        color: #b3bbb3;
+    }
+
+    .field-label {
+        display: block;
+        color: var(--color-muted);
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+}
