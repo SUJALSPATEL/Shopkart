@@ -68,20 +68,29 @@ const orderSchema = new mongoose.Schema(
         },
 
         // Computed server-side from current prices, never taken from the request.
+        // The grand total actually charged, GST included.
         totalAmount: {
             type: Number,
             required: true,
             min: 0
         },
 
-        // COD is the only method in this lab, so the enum documents it.
-        paymentMethod: {
-            type: String,
-            enum: ['COD'],
-            default: 'COD'
+        // The 18% tax folded into totalAmount, kept separate so a receipt can
+        // show the breakdown. Defaults to 0 so orders stored before GST was
+        // charged stay valid and read as a plain subtotal.
+        gstAmount: {
+            type: Number,
+            required: true,
+            min: 0,
+            default: 0
         },
 
-        // Nothing is paid up front — the money is collected on delivery.
+        paymentMethod: {
+            type: String,
+            enum: ['RAZORPAY'],
+            default: 'RAZORPAY'
+        },
+
         paymentStatus: {
             type: String,
             enum: ['PENDING', 'PAID', 'FAILED'],
@@ -90,9 +99,12 @@ const orderSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ['PLACED', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
+            enum: ['PENDING_PAYMENT', 'PLACED', 'SHIPPED', 'DELIVERED', 'CANCELLED'],
             default: 'PLACED'
-        }
+        },
+
+        razorpayOrderId: { type: String },
+        razorpayPaymentId: { type: String }
     },
     { timestamps: true }
 )

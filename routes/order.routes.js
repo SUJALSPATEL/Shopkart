@@ -1,8 +1,10 @@
 import express from 'express'
 import {
-    createCODOrder,
+    cancelPaymentOrder,
+    createPaymentOrder,
     getOrders,
-    getOrderById
+    getOrderById,
+    verifyPayment
 } from '../controllers/order.controller.js'
 import { isAuthenticated } from '../middlewares/auth.middleware.js'
 
@@ -11,8 +13,11 @@ const router = express.Router()
 // Applied to the whole router so no order endpoint can be added without auth.
 router.use(isAuthenticated)
 
-// Assignment's payment endpoint; here it just creates a COD order, no gateway.
-router.post('/create-payment-order', createCODOrder)
+router.post('/create-payment-order', createPaymentOrder)
+router.post('/verify-payment', verifyPayment)
+
+// Two segments, so it cannot collide with the literal path above.
+router.post('/:id/cancel-payment', cancelPaymentOrder)
 
 router.get('/', getOrders)
 

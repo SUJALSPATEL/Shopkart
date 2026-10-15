@@ -84,11 +84,21 @@ export const removeFromCart = (productId) =>
     request(`/cart/${productId}`, { method: 'DELETE' })
 
 // Only the address is sent; the server prices the items from the cart.
-export const createCODOrder = (shippingAddress) =>
+export const createPaymentOrder = (shippingAddress) =>
     request('/orders/create-payment-order', {
         method: 'POST',
         body: JSON.stringify({ shippingAddress })
     })
+
+export const verifyPayment = (paymentDetails) =>
+    request('/orders/verify-payment', {
+        method: 'POST',
+        body: JSON.stringify(paymentDetails)
+    })
+
+// Marks a pending order abandoned, so it does not linger in the customer's history.
+export const cancelPaymentOrder = (orderId) =>
+    request(`/orders/${orderId}/cancel-payment`, { method: 'POST' })
 
 export const getOrders = () => request('/orders')
 

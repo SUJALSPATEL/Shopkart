@@ -4,6 +4,10 @@ import { getOrderById } from '../services/api.js'
 
 const formatPrice = (price) => `₹${price.toLocaleString('en-IN')}`
 
+// Derive the subtotal from the stored total and GST, rounded to paise.
+const subtotalOf = (order) =>
+    Math.round((order.totalAmount - (order.gstAmount || 0)) * 100) / 100
+
 export default function OrderSuccess() {
     const { id } = useParams()
 
@@ -61,9 +65,10 @@ export default function OrderSuccess() {
 
                         <h1 className="mt-5 text-3xl font-bold tracking-tight">Order placed</h1>
                         <p className="mt-3 leading-relaxed text-muted">
-                            Your order is confirmed and stored against your account. Keep{' '}
-                            <span className="text-ink">{formatPrice(order.totalAmount)}</span> ready in
-                            cash — it is collected on delivery.
+                            {order.paymentStatus === 'PAID'
+                                ? 'Your payment is verified and your order is confirmed for '
+                                : 'Your order is confirmed for '}
+                            <span className="text-ink">{formatPrice(order.totalAmount)}</span>.
                         </p>
 
                         <dl className="mt-7 space-y-3 border-t border-line pt-6 text-sm">
@@ -72,7 +77,20 @@ export default function OrderSuccess() {
                                 <dd className="font-mono">#{order._id.slice(-8).toUpperCase()}</dd>
                             </div>
                             <div className="flex items-center justify-between">
-                                <dt className="text-muted">Total to pay</dt>
+                                <dt className="text-muted">Subtotal</dt>
+                                <dd className="font-mono">{formatPrice(subtotalOf(order))}</dd>
+                            </div>
+                            {/* Hidden on orders stored before GST was charged. */}
+                            {order.gstAmount > 0 && (
+                                <div className="flex items-center justify-between">
+                                    <dt className="text-muted">GST (18%)</dt>
+                                    <dd className="font-mono">{formatPrice(order.gstAmount)}</dd>
+                                </div>
+                            )}
+                            <div className="flex items-center justify-between">
+                                <dt className="text-muted">
+                                    {order.paymentStatus === 'PAID' ? 'Amount paid' : 'Order total'}
+                                </dt>
                                 <dd className="text-lg font-bold tracking-tight">
                                     {formatPrice(order.totalAmount)}
                                 </dd>

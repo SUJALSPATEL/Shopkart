@@ -4,6 +4,11 @@ import { getOrderById } from '../services/api.js'
 
 const formatPrice = (price) => `₹${price.toLocaleString('en-IN')}`
 
+// Only the grand total is stored, so the pre-tax subtotal is read back by
+// subtraction. Rounding to paise keeps it from drifting to 117.99999.
+const subtotalOf = (order) =>
+    Math.round((order.totalAmount - (order.gstAmount || 0)) * 100) / 100
+
 const formatDate = (value) =>
     new Date(value).toLocaleDateString('en-IN', {
         day: 'numeric',
@@ -149,6 +154,17 @@ export default function OrderDetails() {
                                         <dt className="text-muted">Payment status</dt>
                                         <dd className="font-mono">{order.paymentStatus}</dd>
                                     </div>
+                                    <div className="flex items-center justify-between">
+                                        <dt className="text-muted">Subtotal</dt>
+                                        <dd className="font-mono">{formatPrice(subtotalOf(order))}</dd>
+                                    </div>
+                                    {/* Hidden on orders stored before GST was charged. */}
+                                    {order.gstAmount > 0 && (
+                                        <div className="flex items-center justify-between">
+                                            <dt className="text-muted">GST (18%)</dt>
+                                            <dd className="font-mono">{formatPrice(order.gstAmount)}</dd>
+                                        </div>
+                                    )}
                                     <div className="flex items-center justify-between border-t border-line pt-3">
                                         <dt className="font-semibold">Total</dt>
                                         <dd className="text-lg font-bold tracking-tight">
