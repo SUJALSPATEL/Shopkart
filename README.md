@@ -285,3 +285,9 @@ The product-creation endpoint is currently unauthenticated; there is no admin ro
 - GST is 18% and is computed on the server from its own product prices, then stored on the order. The cart, checkout and receipt pages all display that same subtotal / GST / total breakdown.
 - Product creation is available through the API but is not an admin-only operation.
 - The product seeder uses sample records and image URLs from `picsum.photos`.
+
+---
+
+<p align="center">
+  MERN backend assignment project · Made by <strong>Sujal Patel</strong>
+</p>
